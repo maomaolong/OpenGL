@@ -1,0 +1,50 @@
+标题：我的第一个OpenGL程序
+
+实现方法：
+
+函数说明：
+	#glutInit
+		功能：用于初始化GULT库
+			  所有的GLUT函数都有glut前缀并且那些完成一些初始化的函数有glutInit前缀。
+		      你首先要做的是调用函数glutInit()。
+		原型：Void glutInit(int*argc,char**argv)
+		参数：Argc：一个指针，指向从main（）函数传递过来的没更改的argc变量。 
+			  Argv：一个指针，指向从main（）函数传递过来的没更改的argv变量。 
+
+	#glutInitDisplayMode
+		功能：设置初始显示模式
+		原型：void glutInitDisplayMode(unsigned int mode)
+		参数：mode : mode可取以下值或其组合：
+			  值    对应宏定义       意义
+			  .
+			  .
+
+	#glutDisplayFunc
+		功能：用于注册一个绘图函数， 这样操作系统在必要时刻就会对窗体进行重新绘制操作。
+			  类似于windows程序设计中处理WM_PAINT消息。具体来说呢，
+			  就是设置一个函数当需要进行画图时就调用这个函数如
+		原型：void glutDisplayFunc(void (void*)(void))
+		参数：被注册的绘图函数
+
+	#glutMainLoop
+		功能：进入GLUT事件处理循环。在一个GLUT程序中，这个例程被调用一次 。
+			  一旦被调用，这个程序将永远不会返回 。它将调用必要的任何已注册的回调。
+		原型：void glutMainLoop()
+		参数：
+
+	#glClear
+		功能：可以使用 | 运算符组合不同的缓冲标志位，表明需要清除的缓冲，
+			  例如glClear（GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT）
+			  表示要清除颜色缓冲以及深度缓冲
+		原型：void glClear(GLbitfield mask);
+		参数：
+
+	#glFlush
+		功能：简单地说glFlush()就是强制刷新，OpenGL是使用一条渲染管线线性处理命令的，
+			  一般情况下，我们提交给OpenGL的指令并不是马上送到驱动程序里执行的，
+			  而是放到一个缓冲区里面，等这个缓冲区满了再一次过发到驱动程序里执行；
+			  很多时候只有几条指令是填充不满那个缓冲区的，就是说这些指令根本没有被发送到驱动里，
+			  所以我们要调用glFlush来强制把这些指令送到驱动里进行处理。
+		原型：void glFlush();
+		参数：
+				

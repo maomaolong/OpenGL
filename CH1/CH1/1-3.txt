@@ -1,0 +1,103 @@
+标题：在OpenGL中实现双缓冲技术
+	（画一个旋转的正方形）
+
+问题描述：
+	通常， 我们所看到的窗体、文字、图像，从根本上来说都是“画”出来的。
+	比如，制作一个简单的五子棋， 我们可能先要绘制棋盘，然后绘制棋子，
+	我们可能还要绘制一些提示信息。虽然这些绘制操作有一定的先后顺序，
+	通常情况下，操作系统的这些绘制速度非常的快，使人眼误认为这些绘制操作是同时完成的。
+	但当我们进行复杂的绘图操作时，画面便可能有明显的闪烁。
+	解决这个问题的关键在于使绘制的东西同时出现在屏幕上。所谓双缓冲技术， 
+	是指使用两个缓冲区： 前台缓冲和后台缓冲。前台缓冲即我们看到的屏幕，
+	后台缓冲则在内存当中，对我们来说是不可见的。每次的所有绘图操作都在后台缓冲中进行， 
+	当绘制完成时， 把绘制的最终结果复制到屏幕上， 这样， 我们看到所有GDI元素同时出现在屏幕上，
+	从而解决了频繁刷新导致的画面闪烁问题。
+
+实现方法：
+	在OpenGL中实现双缓冲技术的一种简单方法：
+	1.在调用glutInitDisplayMode函数时， 开启GLUT_DOUBLE，
+		即glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);。
+		这里将我们惯用的GLUT_SINGLE替换为GLUT_DOUBLE，
+		意为要使用双缓冲而非单缓冲。
+	2. 调用glutDisplayFunc(display)注册回调函数时， 
+		在回调函数中所有绘制操作完成后调用glutSwapBuffers()交换两个缓冲区指针。
+	3. 调用glutIdleFunc注册一个空闲时绘制操作函数， 
+		注册的这个函数再调用display函数。
+
+函数说明：
+	#glutReshapeFunc
+		功能：是窗口改变的时候调用的函数
+		原型：
+		参数：
+		openGL中glutReshapeFunc与glutDisplayFunc的区别：
+			  glutReshapeFunc是窗口改变的时候调用的函数，在这个里面可以根据缩放后的窗口重新设置
+			  camera的内部参数，比如横纵比啥的，而glutDisplayFunc是显示的时候调用，可见改变窗口后
+			  调用glutReshapeFunc后还是会调用glutDisplayFunc进行显示的。
+			  不可以不用glutDisplayFunc，比如你想实现动画效果，也就是说窗口大小不变而里面的内容发生变化，
+			  这时候通过设置glutIdelFunc，在里面最后调用glutpostdisplay（我记不清楚了，应该是这个函数），
+			  来通知glutdisplayFuc重画，这样就能实现动画。
+			  简单的说，glutReshapeFunc与glutIdelFunc这些函数都不去直接处理显示，而是设置好相应的参数，
+			  让glutdisplayfunc来执行绘制。
+
+	#glShadeModel
+		功能：设置着色模式
+		原型：void glShadeModel ( GLenum mode);
+		参数：参数mode可以是GL_SMOOTH（默认值）或GL_FLAT。采用恒定着色时（即GL_FLAT），
+			  使用图元中某个顶点的颜色来渲染整个图元。
+			  在使用光滑着色时（即GL_SMOOTH），独立的处理图元中各个顶点的颜色。
+			  对于线段图元，线段上各点的颜色将根据两个顶点的颜色通过插值得到。
+			  对于多边形图元，多边形内部区域的颜色将根据所有顶点的颜色插值得到。
+
+	#glPushMatrix
+		功能：压入当前矩阵堆栈
+			  将本次需要执行的缩放、平移等操作放在glPushMatrix和glPopMatrix之间。
+			  glPushMatrix()和glPopMatrix()的配对使用可以消除上一次的变换对本次变换的影响。
+			  使本次变换是以世界坐标系的原点为参考点进行。
+		原型：void glPushMatrix(void);
+		参数：
+
+	#glRotatef
+		功能：物體如何旋转
+			  glRotatef(45,1,0,0)
+			  物體如何旋转？想象：从 坐标（0，0，0）即原点，引出一条线到（1,0,0）,
+			  用右手握住这条线，这时，你会问，如何握？右手大拇指指向 （0，0，0）至
+			  （1，0，0）的方向 才握。另外四个手指的弯曲指向 即是物体旋转方向。
+		原型：glRotatef(GLfloat angle,GLfloat x,GLfloat y,GLfloat z)
+		参数：
+
+	#glutSwapBuffers
+		功能：交换两个缓冲区指针
+		原型：glRotatef(GLfloat angle,GLfloat x,GLfloat y,GLfloat z)
+		参数：
+
+	#glutPostRedisplay
+		功能：标记当前窗口需要重新绘制。通过glutMainLoop下一次循环时，
+			  窗口显示将被回调以重新显示窗口的正常面板。多次调用glutPostRedisplay，
+			  在下一个显示回调只产生单一的重新显示回调。
+		原型：void glutPostRedisplay(void);
+		参数：
+
+	#glViewport
+		功能：glViewport在默认情况下，视口被设置为占据打开窗口的整个像素矩形，
+			  窗口大小和设置视口大小相同，所以为了选择一个更小的绘图区域，
+			  就可以用glViewport函数来实现这一变换，在窗口中定义一个像素矩形，
+			  最终将图像映射到这个矩形中。例如可以对窗口区域进行划分，
+			  在同一个窗口中显示分割屏幕的效果，以显示多个视图。
+		原型：glViewport(GLint x,GLint y,GLsizei width,GLsizei height)
+		参数：
+
+	#glutIdleFunc
+		功能：设置全局的回调函数，当没有窗口事件到达时，
+			  GLUT程序功能可以执行后台处理任务或连续动画。如果启用，
+			  这个idle function会被不断调用，直到有窗口事件发生。回调函数没有参数。
+			  当前的窗口和菜单在执行idle func之前不会改变。
+			  当程序依赖多窗口或菜单时最好不要依赖于当前设定。
+		原型：void glutIdleFunc(void (*func)(void));
+		参数：
+		说明：应尽量减少在空闲回调完成的计算和渲染的数额，以避免影响程序的交互响应。
+			  在一般情况下，不超过单帧的渲染工作应在一个空闲回调。
+			  向glutIdleFunc传递NULL（0）就可禁用其函数回调。
+			  在glutIdleFunc(void (*func)(void))回调函数中指定一个函数，
+			  如果不存在其他尚未完成的事件（例如，当事件循环处于空闲的时候），
+			  就执行这个函数。这个回调函数接受一个函数指针作为它的唯一参数。
+			  如果向它传递NULL(0),就相当于禁用这个函数。
