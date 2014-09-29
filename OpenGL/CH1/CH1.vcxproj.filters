@@ -32,17 +32,28 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CH1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="example1_2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="example1_3.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Version.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="1_2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="1_3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CH1_2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CH1_1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CH1_3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="mask.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
