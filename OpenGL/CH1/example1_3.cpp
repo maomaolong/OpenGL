@@ -13,6 +13,11 @@ void init()
 
 void display(void)
 {
+	//int i = 0;
+	//while (i<10000000)
+	//{
+	//	i++;
+	//}
 	printf("display\n");
 	glClear(GL_COLOR_BUFFER_BIT);
 	glPushMatrix();  

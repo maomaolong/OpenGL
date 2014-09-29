@@ -1,0 +1,39 @@
+标题：直线点画模式
+
+实现方法：
+
+函数说明：
+	#glEnable
+		功能：用于启用各种功能。具体功能由参数决定。
+			  与glDisable相对应。glDisable用以关闭各项功能。
+		原型：void glEnable(GLenum cap);
+		参数：GLenum 说明参数应为unsigned int 类型
+			  cap 具体取值为OpenGl所预设的常量。cap决定所要启用的功能。
+			  各种功能参见参数cap的取值表
+		返回值：
+
+	#glLineStipple
+		功能：OpenGL中设置直线的当前点画模式。pattern参数是由1或0组成的16位序列，
+			  它们根据需要进行重复，对一条特定的直线进行点画处理。从这个模式的低位开始，
+			  一个像素一个像素的进行处理。如果模式中对应的位是1，就绘制这个像素，
+			  否则就不绘制。模式可以使用factor参数（表示重复因子）进行扩展，
+			  它与1和0的连续子序列相乘。因此，如果模式中出现了3个1，并且factor是2，
+			  那么它们就扩展为6个连续的1。必须以GL_LINE_STIPPLE为参数调用glEnable()
+			  才能启用直线点画功能。为了禁用直线点画功能，可以向glDisable()函数传递同
+			  一个参数。
+			  例如：
+			  glLineStipple(1, Ox3F07);
+			  glEnable(GL_LINE_STIPPLE);
+			  此时模式为Ox3F07（二进制形式为0011111100000111），它所画出来的直线是这样的：
+			  先连续绘制3个像素，然后连续5个像素留空，再连续绘制6个像素，最后两个像素留空
+			  （注意，首先是从低位开始的）。如果factor是2，那么这个模式便被扩展为：
+			  先连续绘制6个像素，然后连续10个像素留空，再连续绘制12个像素，最后4个像素留空。
+			  如果没有启用点画线功能，OpenGL会自动把pattern当做为OxFFFF，把factor当成1。
+		原型：viod glLineStipple(GLint factor,GLshort pattern);
+
+		#gluOrtho2D
+		功能：定义了一个二维图像投影矩阵
+			  建立了一个可视的二位平面区域。这个和用glOrtho函数效果是一样的当glOrtho的near=0，far=1时
+		原型：void gluOrtho2D(GLdouble left,GLdouble right,GLdouble bottom,GLdouble top)
+		参数：参数 left,right指明平面的左边和右边的垂直坐标
+				   bottom,top指明平面底部和顶部的水平坐标。
