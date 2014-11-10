@@ -50,6 +50,9 @@
     <ClCompile Include="CH1_3.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CH1_4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="mask.bmp">

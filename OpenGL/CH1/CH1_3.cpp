@@ -1,6 +1,6 @@
 
 #include "stdafx.h"
-#define ENABLE 1
+#define ENABLE 0
 #if ENABLE
 #include <cstdlib>
 #include <cstdio>
